@@ -1,11 +1,16 @@
 import { signal } from '@angular/core';
 import { TestComponent } from './test-component.component';
 import { createOutputSpy } from 'cypress/angular-signals';
+import {
+  QueryClient,
+  provideAngularQuery,
+} from '@tanstack/angular-query-experimental';
 
 describe('TestComponent', () => {
   it('works with inferred generic type input<required>', () => {
     let titleProp = 'Test Component';
     cy.mount(TestComponent, {
+      providers: [provideAngularQuery(new QueryClient())],
       componentProperties: {
         title: titleProp,
       },
@@ -19,6 +24,7 @@ describe('TestComponent', () => {
 
   it('works with inferred generic type model', () => {
     cy.mount(TestComponent, {
+      providers: [provideAngularQuery(new QueryClient())],
       componentProperties: {
         title: 'Test Component',
         count: 3,
@@ -31,6 +37,7 @@ describe('TestComponent', () => {
   it('works with writable signal input<required> (one-way data binding)', () => {
     const myTitlePropAsSignal = signal('Test Component');
     cy.mount(TestComponent, {
+      providers: [provideAngularQuery(new QueryClient())],
       componentProperties: {
         title: myTitlePropAsSignal,
       },
@@ -54,6 +61,7 @@ describe('TestComponent', () => {
   it('works with writable signal model (two-way data binding)', () => {
     let count = signal(5);
     cy.mount(TestComponent, {
+      providers: [provideAngularQuery(new QueryClient())],
       componentProperties: {
         title: 'Test Component',
         count,
@@ -78,6 +86,7 @@ describe('TestComponent', () => {
   describe('output spies', () => {
     it('works with createOutputSpy() for writable signal model()', () => {
       cy.mount(TestComponent, {
+        providers: [provideAngularQuery(new QueryClient())],
         componentProperties: {
           title: 'Test Component',
           count: 4,
@@ -94,6 +103,7 @@ describe('TestComponent', () => {
 
     it('works with "autoSpyOutputs=true"', () => {
       cy.mount(TestComponent, {
+        providers: [provideAngularQuery(new QueryClient())],
         componentProperties: {
           title: 'Test Component',
           count: 4,
