@@ -33,7 +33,11 @@ declare global {
   }
 }
 
-Cypress.Commands.add('mount', mount)
+Cypress.Commands.add('mount', function (...args) {
+  mount(...args).then(({ fixture }) => {
+    fixture.autoDetectChanges(true)
+  })
+})
 
 // Example use:
 // cy.mount(MyComponent)
